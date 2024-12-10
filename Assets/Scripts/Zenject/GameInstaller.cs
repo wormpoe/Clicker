@@ -8,6 +8,7 @@ public class GameInstaller : MonoInstaller
     {
         BindSignal();
         Container.Bind<GameScore>().AsSingle();
+        Container.Bind<ClickPower>().AsSingle();
     }
 
     private void BindSignal()
@@ -15,5 +16,6 @@ public class GameInstaller : MonoInstaller
         SignalBusInstaller.Install(Container);
 
         Container.DeclareSignal<ScoreCangedSignal>().OptionalSubscriber();
+        Container.DeclareSignal<ClickPowerSignal>().OptionalSubscriber();
     }
 }

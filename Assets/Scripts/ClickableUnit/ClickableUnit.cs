@@ -3,10 +3,10 @@ using Zenject;
 
 public class ClickableUnit : MonoBehaviour
 {
-    private int click = 1;
+    private int _click = 1;
     private GameScore _gameScore;
     [Inject]
-    public void Construct(GameScore gameScore)
+    private void Construct(GameScore gameScore)
     {
         _gameScore = gameScore;
     }
@@ -17,12 +17,12 @@ public class ClickableUnit : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject == gameObject)
             {
-                _gameScore.AddScore(click);
+                _gameScore.AddScore(_click);
             }
         }
     }
     public void ClickUpdate(int value)
     {
-        click += value;
+        _click += value;
     }
 }

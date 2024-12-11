@@ -5,7 +5,7 @@ public class GameScore
 {
     private int _score = 0;
     private SignalBus _signalBus;
-    public int Score { get => _score; }
+    public int GetScore { get => _score; }
 
     [Inject]
     private void Construct(SignalBus signalBus)

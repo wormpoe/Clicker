@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class NoobClickUpgrade : MonoBehaviour, IUpgradeble
+public class RegularClickUpgrade : MonoBehaviour, IUpgradeble
 {
     private int _upgradePrice;
     private float _scalePrice;
@@ -26,9 +26,9 @@ public class NoobClickUpgrade : MonoBehaviour, IUpgradeble
     private void Awake()
     {
         upgradeButton.onClick.AddListener(Upgrade);
-        _upgradePrice = _upgradeData.ClickNoobStartPrice;
-        _scalePrice = _upgradeData.ClickNoobScalePrice;
-        _clickUpgrade = _upgradeData.ClickNoobScalePower;
+        _upgradePrice = _upgradeData.ClickRegularStartPrice;
+        _scalePrice = _upgradeData.ClickRegularScalePrice;
+        _clickUpgrade = _upgradeData.ClickRegularScalePower;
         _countUpgrade = 0;
     }
     public void Upgrade()

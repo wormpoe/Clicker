@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class NoobUpgrade : MonoBehaviour, IUpgradeble
+public class NoobClickUpgrade : MonoBehaviour, IUpgradeble
 {
     private int _upgradePrice = 10;
     private int _countUpgrade = 0;
@@ -30,7 +30,7 @@ public class NoobUpgrade : MonoBehaviour, IUpgradeble
         if (_gameScore.Score >= _upgradePrice)
         {
             _gameScore.RemoveScore(_upgradePrice);
-            _clickPower.ClickUpdate(_clickUpgrade);
+            _clickPower.UpgradePower(_clickUpgrade);
             ScalePrice();
         }
     }

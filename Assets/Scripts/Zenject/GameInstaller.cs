@@ -9,6 +9,7 @@ public class GameInstaller : MonoInstaller
         BindSignal();
         Container.Bind<GameScore>().AsSingle();
         Container.Bind<ClickPower>().AsSingle();
+        Container.Bind<DamageOverTimePower>().AsSingle();
     }
 
     private void BindSignal()
@@ -17,5 +18,6 @@ public class GameInstaller : MonoInstaller
 
         Container.DeclareSignal<ScoreCangedSignal>().OptionalSubscriber();
         Container.DeclareSignal<ClickPowerSignal>().OptionalSubscriber();
+        Container.DeclareSignal<DPSPowerSignal>().OptionalSubscriber();
     }
 }

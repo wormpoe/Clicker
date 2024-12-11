@@ -1,20 +1,23 @@
 using UnityEngine;
 using Zenject;
 
-public class ClickPower
+public class ClickPower : IPower
 {
     private int _click = 1;
     private SignalBus _signalBus;
-    public int Click { get => _click; }
 
     [Inject]
     private void Construct(SignalBus signalBus)
     {
         _signalBus = signalBus;
     }
-    public void ClickUpdate(int value)
+    public void UpgradePower(int value)
     {
         _click += value;
         _signalBus.Fire(new ClickPowerSignal(_click));
+    }
+    public int GetPower()
+    {
+        return _click;
     }
 }

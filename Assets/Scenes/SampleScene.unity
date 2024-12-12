@@ -2851,6 +2851,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b03fd520f89f041a32ed802116ff4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  revaeldItems:
+  - {fileID: 1253268166}
+  - {fileID: 422513161}
+  - {fileID: 219934860}
+  - {fileID: 471712125}
+  - {fileID: 90524197}
   shopButton: {fileID: 1253268166}
   clickShopButton: {fileID: 219934860}
   dpsShopButton: {fileID: 471712125}

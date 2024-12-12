@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f72a59355cffeb4381803444ffa9272, type: 3}
   m_Name: UpgradeConfig
   m_EditorClassIdentifier: 
-  _upgradeData:
-    clickNoobStartPirce: 10
-    clickNoobScalePrice: 1.5
-    clickNoobScalePower: 1
-    clickRegularStartPirce: 250
-    clickRegularScalePrice: 2.5
-    clickRegularScalePower: 5
-    dpsNoobStartPirce: 50
-    dpsNoobScalePrice: 1.8
-    dpsNoobScalePower: 1
+  clickUpgradeData:
+  - name: Noob
+    startPrice: 10
+    clickUpgrade: 1
+    scale: 1.5
+  - name: Regular
+    startPrice: 250
+    clickUpgrade: 5
+    scale: 2.5
+  dpsUpgradeData:
+  - name: Noob
+    startPrice: 50
+    dpsUpgrade: 1
+    scale: 1.8

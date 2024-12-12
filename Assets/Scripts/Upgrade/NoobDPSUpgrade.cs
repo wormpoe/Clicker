@@ -11,24 +11,26 @@ public class NoobDPSUpgrade : MonoBehaviour, IUpgradeble
     private int _dpsUpgrade;
     private GameScore _gameScore;
     private DamageOverTimePower _dpsPower;
-    private UpgradeData _upgradeData;
+    private DpsUpgradeData _upgradeData;
+    private UpgradeConfig _upgradeConfig;
     [SerializeField] Button upgradeButton;
     [SerializeField] TextMeshProUGUI textUpgradePrice;
     [SerializeField] TextMeshProUGUI textCountUpgrade;
 
     [Inject]
-    private void Construct(GameScore gameScore, DamageOverTimePower dpsPower, UpgradeData upgradeData)
+    private void Construct(GameScore gameScore, DamageOverTimePower dpsPower, UpgradeConfig upgradeConfig)
     {
         _gameScore = gameScore;
         _dpsPower = dpsPower;
-        _upgradeData = upgradeData;
+        _upgradeConfig = upgradeConfig;
     }
     private void Awake()
     {
         upgradeButton.onClick.AddListener(Upgrade);
-        _upgradePrice = _upgradeData.DpsNoobStartPrice;
-        _scalePrice = _upgradeData.DpsNoobScalePrice;
-        _dpsUpgrade = _upgradeData.DpsNooobScalePower;
+        _upgradeData = _upgradeConfig.DpsUpgradeData[0];
+        _upgradePrice = _upgradeData.StartPrice;
+        _scalePrice = _upgradeData.Scale;
+        _dpsUpgrade = _upgradeData.DpsUpgrade;
         _countUpgrade = 0;
     }
     public void Upgrade()
@@ -46,5 +48,11 @@ public class NoobDPSUpgrade : MonoBehaviour, IUpgradeble
         _countUpgrade++;
         textCountUpgrade.text = string.Format("x{0}", _countUpgrade);
         textUpgradePrice.text = string.Format("Price: {0}", _upgradePrice);
+    }
+    public void RevealedUpgrade(GameObject revealObject)
+    {
+        if (_gameScore.GetScore < _upgradePrice)
+            return;
+        revealObject.SetActive(true);
     }
 }

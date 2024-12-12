@@ -11,24 +11,26 @@ public class RegularClickUpgrade : MonoBehaviour, IUpgradeble
     private int _countUpgrade;
     private GameScore _gameScore;
     private ClickPower _clickPower;
-    private UpgradeData _upgradeData;
+    private ClickUpgradeData _upgradeData;
+    private UpgradeConfig _upgradeConfig;
     [SerializeField] Button upgradeButton;
     [SerializeField] TextMeshProUGUI textUpgradePrice;
     [SerializeField] TextMeshProUGUI textCountUpgrade;
 
     [Inject]
-    private void Construct(GameScore gameScore, ClickPower clickPower, UpgradeData upgradeData)
+    private void Construct(GameScore gameScore, ClickPower clickPower, UpgradeConfig upgradeConfig)
     {
         _gameScore = gameScore;
         _clickPower = clickPower;
-        _upgradeData = upgradeData;
+        _upgradeConfig = upgradeConfig;
     }
     private void Awake()
     {
         upgradeButton.onClick.AddListener(Upgrade);
-        _upgradePrice = _upgradeData.ClickRegularStartPrice;
-        _scalePrice = _upgradeData.ClickRegularScalePrice;
-        _clickUpgrade = _upgradeData.ClickRegularScalePower;
+        _upgradeData = _upgradeConfig.ClickUpgradeData[1];
+        _upgradePrice = _upgradeData.StartPrice;
+        _scalePrice = _upgradeData.Scale;
+        _clickUpgrade = _upgradeData.ClickUpgrade;
         _countUpgrade = 0;
     }
     public void Upgrade()
@@ -46,5 +48,11 @@ public class RegularClickUpgrade : MonoBehaviour, IUpgradeble
         _countUpgrade++;
         textCountUpgrade.text = string.Format("x{0}", _countUpgrade);
         textUpgradePrice.text = string.Format("Price: {0}", _upgradePrice);
+    }
+    public void RevealedUpgrade(GameObject revealObject)
+    {
+        if (_gameScore.GetScore < _upgradePrice)
+            return;
+        revealObject.SetActive(true);
     }
 }

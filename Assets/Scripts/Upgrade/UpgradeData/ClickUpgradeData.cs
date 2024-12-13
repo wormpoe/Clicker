@@ -1,6 +1,6 @@
 using UnityEngine;
 [System.Serializable]
-public class ClickUpgradeData
+public struct ClickUpgradeData
 {
     [SerializeField] string name;
     [SerializeField] int startPrice;

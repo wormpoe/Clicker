@@ -27,7 +27,7 @@ public class NoobDPSUpgrade : MonoBehaviour, IUpgradeble
     private void Awake()
     {
         upgradeButton.onClick.AddListener(Upgrade);
-        _upgradeData = _upgradeConfig.DpsUpgradeData[0];
+        _upgradeData = _upgradeConfig.DpsUpgradeDatas[0];
         _upgradePrice = _upgradeData.StartPrice;
         _scalePrice = _upgradeData.Scale;
         _dpsUpgrade = _upgradeData.DpsUpgrade;
@@ -48,11 +48,5 @@ public class NoobDPSUpgrade : MonoBehaviour, IUpgradeble
         _countUpgrade++;
         textCountUpgrade.text = string.Format("x{0}", _countUpgrade);
         textUpgradePrice.text = string.Format("Price: {0}", _upgradePrice);
-    }
-    public void RevealedUpgrade(GameObject revealObject)
-    {
-        if (_gameScore.GetScore < _upgradePrice)
-            return;
-        revealObject.SetActive(true);
     }
 }

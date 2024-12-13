@@ -17,6 +17,5 @@ public class GameInstaller : MonoInstaller
         Container.DeclareSignal<ScoreCangedSignal>().OptionalSubscriber();
         Container.DeclareSignal<ClickPowerSignal>().OptionalSubscriber();
         Container.DeclareSignal<DPSPowerSignal>().OptionalSubscriber();
-        Container.DeclareSignal<RevealSignal>().OptionalSubscriber();
     }
 }

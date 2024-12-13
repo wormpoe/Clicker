@@ -2,21 +2,13 @@ using UnityEngine;
 using Zenject;
 using System.Collections.Generic;
 
-public class RevealedShop : MonoBehaviour
+public class RevealedShop : MonoBehaviour, IRevealed
 {
     private SignalBus _signalBus;
     private UpgradeConfig _upgradeConfig;
-    private List<ClickUpgradeData> _clickUpgradeData;
-    private List<DpsUpgradeData> _dpsUpgradeData;
-    private int _dpsId;
-    private int _clickId;
-    private bool isShopReveal;
-    private bool isDpsTabReveal;
-    [SerializeField] List<GameObject> revealedClickItems;
-    [SerializeField] List<GameObject> revealedDpsItems;
-    [SerializeField] GameObject shopButton;
-    [SerializeField] GameObject clickShopButton;
-    [SerializeField] GameObject dpsShopButton;
+    private List<RevealShopData> _revealShopDatas;
+    private int _revealId;
+    [SerializeField] List<GameObject> revealedShopObjects;
     [SerializeField] GameObject shop;
 
     [Inject]
@@ -27,56 +19,23 @@ public class RevealedShop : MonoBehaviour
     }
     private void Awake()
     {
-        _clickUpgradeData = _upgradeConfig.ClickUpgradeData;
-        _dpsUpgradeData = _upgradeConfig.DpsUpgradeData;
-        _signalBus.Subscribe<ScoreCangedSignal>(OnRevealed);
-        foreach (var reveal in revealedClickItems)
-        {
-            reveal.SetActive(false);
-        }
-        foreach (var reveal in revealedDpsItems)
-        {
-            reveal.SetActive(false);
-        }
-        _dpsId = 0;
-        _clickId = 0;
-        isShopReveal = false;
-        isDpsTabReveal = false;
-        shopButton.SetActive(false);
-        clickShopButton.SetActive(false);
-        dpsShopButton.SetActive(false);
         shop.SetActive(false);
-        Debug.Log($"{_clickUpgradeData.Count}/{_dpsUpgradeData.Count}");
-
-
-    }
-    private void OnRevealed(ScoreCangedSignal signal)
-    {
-        if (signal.Value >= _clickUpgradeData[_clickId].StartPrice)
+        _revealShopDatas = _upgradeConfig.RevealShopDatas;
+        _signalBus.Subscribe<ScoreCangedSignal>(OnRevealed);
+        foreach (var revealed in revealedShopObjects)
         {
-            revealedClickItems[_clickId].SetActive(true);
-            if (!isShopReveal)
-            {
-                shopButton.SetActive(true);
-                isShopReveal = true;
-            }
-            if(_clickId < _clickUpgradeData.Count - 1)
-            {
-                _clickId++;
-            }
+            revealed.SetActive(false);
         }
-        if (signal.Value >= _dpsUpgradeData[_dpsId].StartPrice)
+        _revealId = 0;
+    }
+    public void OnRevealed(ScoreCangedSignal signal)
+    {
+        if (signal.Value >= _revealShopDatas[_revealId].RevealValue)
         {
-            revealedDpsItems[_dpsId].SetActive(true);
-            if (!isDpsTabReveal)
+            revealedShopObjects[_revealId].SetActive(true);
+            if(_revealId < revealedShopObjects.Count - 1)
             {
-                clickShopButton.SetActive(true);
-                dpsShopButton.SetActive(true);
-                isDpsTabReveal = true;
-            }
-            if (_dpsId < _dpsUpgradeData.Count - 1)
-            {
-                _dpsId++;
+                _revealId++;
             }
         }
     }

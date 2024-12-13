@@ -27,7 +27,7 @@ public class RegularClickUpgrade : MonoBehaviour, IUpgradeble
     private void Awake()
     {
         upgradeButton.onClick.AddListener(Upgrade);
-        _upgradeData = _upgradeConfig.ClickUpgradeData[1];
+        _upgradeData = _upgradeConfig.ClickUpgradeDatas[1];
         _upgradePrice = _upgradeData.StartPrice;
         _scalePrice = _upgradeData.Scale;
         _clickUpgrade = _upgradeData.ClickUpgrade;
@@ -48,11 +48,5 @@ public class RegularClickUpgrade : MonoBehaviour, IUpgradeble
         _countUpgrade++;
         textCountUpgrade.text = string.Format("x{0}", _countUpgrade);
         textUpgradePrice.text = string.Format("Price: {0}", _upgradePrice);
-    }
-    public void RevealedUpgrade(GameObject revealObject)
-    {
-        if (_gameScore.GetScore < _upgradePrice)
-            return;
-        revealObject.SetActive(true);
     }
 }

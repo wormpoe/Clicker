@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f72a59355cffeb4381803444ffa9272, type: 3}
   m_Name: UpgradeConfig
   m_EditorClassIdentifier: 
-  clickUpgradeData:
+  clickUpgradeDatas:
   - name: Noob
     startPrice: 10
     clickUpgrade: 1
@@ -20,9 +20,16 @@ MonoBehaviour:
   - name: Regular
     startPrice: 250
     clickUpgrade: 5
-    scale: 2.5
-  dpsUpgradeData:
+    scale: 1.5
+  dpsUpgradeDatas:
   - name: Noob
     startPrice: 50
     dpsUpgrade: 1
-    scale: 1.8
+    scale: 1.5
+  revealShopDatas:
+  - name: ShopButton
+    revealValue: 10
+  - name: ClickTab
+    revealValue: 50
+  - name: DpsTab
+    revealValue: 50

@@ -2212,6 +2212,7 @@ GameObject:
   - component: {fileID: 594293189}
   - component: {fileID: 594293190}
   - component: {fileID: 594293191}
+  - component: {fileID: 594293192}
   m_Layer: 5
   m_Name: DPSShop
   m_TagString: Untagged
@@ -2277,6 +2278,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &594293192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594293188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb1c4f18ccd8864d8fbaa7fe6fa9076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  revealedDpsItems:
+  - {fileID: 2110066330}
 --- !u!1 &638742985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,16 +2866,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b03fd520f89f041a32ed802116ff4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  revaeldItems:
+  revealedShopObjects:
   - {fileID: 1253268166}
-  - {fileID: 422513161}
   - {fileID: 219934860}
   - {fileID: 471712125}
-  - {fileID: 90524197}
-  shopButton: {fileID: 1253268166}
-  clickShopButton: {fileID: 219934860}
-  dpsShopButton: {fileID: 471712125}
-  clickRegularUpgrade: {fileID: 90524197}
   shop: {fileID: 422513161}
 --- !u!1 &871305801
 GameObject:
@@ -3610,6 +3619,7 @@ GameObject:
   - component: {fileID: 1273105514}
   - component: {fileID: 1273105516}
   - component: {fileID: 1273105515}
+  - component: {fileID: 1273105517}
   m_Layer: 5
   m_Name: ClickShop
   m_TagString: Untagged
@@ -3676,6 +3686,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1273105513}
   m_CullTransparentMesh: 1
+--- !u!114 &1273105517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273105513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721fa1cdad8eec34ca97cdd2f4053ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  revealedClickItems:
+  - {fileID: 67271693}
+  - {fileID: 90524197}
 --- !u!1 &1322262539
 GameObject:
   m_ObjectHideFlags: 0

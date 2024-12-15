@@ -2,7 +2,7 @@ using UnityEngine;
 using Zenject;
 using System.Collections.Generic;
 
-public class RevealedShop : MonoBehaviour, IRevealed
+public class RevealedShop : MonoBehaviour
 {
     private SignalBus _signalBus;
     private UpgradeConfig _upgradeConfig;

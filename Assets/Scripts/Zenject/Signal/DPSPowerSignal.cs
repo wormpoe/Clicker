@@ -2,8 +2,8 @@ public class DPSPowerSignal
 {
     public readonly int Value;
 
-    public DPSPowerSignal (int value)
+    public DPSPowerSignal (int signal)
     {
-        Value = value;
+        Value = signal;
     }
 }

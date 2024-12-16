@@ -18,10 +18,11 @@ public class UpgradeClick : Upgrade
         _price = _upgradeData.StartPrice;
         _scale = _upgradeData.Scale;
         _clickUpgrade = _upgradeData.Upgrade;
+        _tpmPrice = _price;
     }
     protected override void UpgradePower()
     {
-        _clickPower.UpgradePower(_clickUpgrade);
+        _clickPower.UpgradePower(_clickUpgrade * _tmpCount);
     }
     private UpgradeData FindData(UpgradeConfig upgradeConfig)
     {

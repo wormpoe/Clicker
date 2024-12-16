@@ -18,10 +18,11 @@ public class UpgradeDps : Upgrade
         _price = _upgradeData.StartPrice;
         _scale = _upgradeData.Scale;
         _dpsUpgrade = _upgradeData.Upgrade;
+        _tpmPrice = _price;
     }
     protected override void UpgradePower()
     {
-        _dpsPower.UpgradePower(_dpsUpgrade);
+        _dpsPower.UpgradePower(_dpsUpgrade * _tmpCount);
     }
     private UpgradeData FindData(UpgradeConfig upgradeConfig)
     {

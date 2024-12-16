@@ -26,21 +26,4 @@ public class MultiplieUpgrade : MonoBehaviour
     {
         _signalBus.Fire(new CountUpgradeSignal(count));
     }
-    /*
-    private int MaxCoutn(int price, float scale, int score)
-    {
-        return (int)(Mathf.Log((1 - score * (1 - scale) / price) / Mathf.Log(scale)));
-    }
-    public float CalculationScale(int price, float scale, int score)
-    {
-        if (_countUpgrade == 0)
-        {
-            _countUpgrade = MaxCoutn(price, scale, score);
-            if (_countUpgrade == 0)
-            {
-                _countUpgrade = 1;
-            }
-        }
-        return (1 - Mathf.Pow(scale, _countUpgrade))/(1-scale);
-    } */
 }

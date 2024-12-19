@@ -5,7 +5,7 @@ public class UpgradeClick : Upgrade
 {
     private ClickPower _clickPower;
     private UpgradeData _upgradeData;
-    private int _clickUpgrade;
+    private float _clickUpgrade;
     [SerializeField] string upgradeName;
     [Inject]
     private void Construct(ClickPower clickPower)
@@ -16,13 +16,14 @@ public class UpgradeClick : Upgrade
     {
         _upgradeData = FindData(upgradeConfig);
         _price = _upgradeData.StartPrice;
+        _exponent = _upgradeData.StartExponent;
         _scale = _upgradeData.Scale;
         _clickUpgrade = _upgradeData.Upgrade;
-        _tpmPrice = _price;
+        _tmpPrice = _price;
     }
     protected override void UpgradePower()
     {
-        _clickPower.UpgradePower(_clickUpgrade * _tmpCount);
+        _clickPower.UpgradePower(_clickUpgrade * _tmpCount, _gameScore.GetExponent - _exponent);
     }
     private UpgradeData FindData(UpgradeConfig upgradeConfig)
     {

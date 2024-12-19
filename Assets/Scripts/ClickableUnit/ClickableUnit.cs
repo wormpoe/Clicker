@@ -7,6 +7,8 @@ public class ClickableUnit : MonoBehaviour
     private ClickPower _clickPower;
     private DamageOverTimePower _dpsPower;
     private Camera _mainCamera;
+    private float _tickInterval = 1;
+    private float _timer = 0;
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -28,12 +30,17 @@ public class ClickableUnit : MonoBehaviour
                 GetScore(_clickPower);
             }
         }
-        GetScore(_dpsPower);
+        _timer += Time.deltaTime;
+        if (_timer >= _tickInterval)
+        {
+            _timer -= _tickInterval;
+            GetScore(_dpsPower);
+        }
     }
     private void GetScore(IPower power)
     {
-        if (power == null) 
+        if (power == null || power.GetPower() == 0f)
             return;
-        _gameScore.AddScore(power.GetPower());
+        _gameScore.AddScore(power.GetPower(), power.GetExponent());
     }
 }

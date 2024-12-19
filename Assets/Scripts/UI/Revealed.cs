@@ -7,14 +7,16 @@ public abstract class Revealed : MonoBehaviour
 {
     private SignalBus _signalBus;
     private UpgradeConfig _upgradeConfig;
+    private GameScore _gameScore;
     protected List<UpgradeData> _upgradeData;
     [SerializeField] protected List<RevealedItem> revealedItems;
 
     [Inject]
-    private void Construct(SignalBus signalBus, UpgradeConfig upgradeConfig)
+    private void Construct(SignalBus signalBus, UpgradeConfig upgradeConfig, GameScore gameScore)
     {
         _signalBus = signalBus;
         _upgradeConfig = upgradeConfig;
+        _gameScore = gameScore;
     }
     private void Awake()
     {
@@ -24,6 +26,10 @@ public abstract class Revealed : MonoBehaviour
         {
             reveal.Item.SetActive(false);
         }
+    }
+    private void OnEnable()
+    {
+        OnRevealed(null);
     }
     protected abstract void Init(UpgradeConfig upgradeConfig);
     private void OnRevealed(ScoreCangedSignal signal)
@@ -38,7 +44,7 @@ public abstract class Revealed : MonoBehaviour
                 RevealedScore = _clickUpgradeDatas.RevealScore
             }
             )
-            .Where(match => signal.Value >= match.RevealedScore)
+            .Where(match => _gameScore.GetScore >= match.RevealedScore)
             .Select(reveal => reveal.RevealedObject);
 
         foreach (var reveal in objectRevealed)

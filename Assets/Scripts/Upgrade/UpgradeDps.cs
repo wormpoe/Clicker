@@ -5,7 +5,7 @@ public class UpgradeDps : Upgrade
 {
     private DamageOverTimePower _dpsPower;
     private UpgradeData _upgradeData;
-    private int _dpsUpgrade;
+    private float _dpsUpgrade;
     [SerializeField] string upgradeName;
     [Inject]
     private void Construct(DamageOverTimePower dpsPower)
@@ -16,13 +16,14 @@ public class UpgradeDps : Upgrade
     {
         _upgradeData = FindData(upgradeConfig);
         _price = _upgradeData.StartPrice;
+        _exponent = _upgradeData.StartExponent;
         _scale = _upgradeData.Scale;
         _dpsUpgrade = _upgradeData.Upgrade;
-        _tpmPrice = _price;
+        _tmpPrice = _price;
     }
     protected override void UpgradePower()
     {
-        _dpsPower.UpgradePower(_dpsUpgrade * _tmpCount);
+        _dpsPower.UpgradePower(_dpsUpgrade * _tmpCount, _gameScore.GetExponent - _exponent);
     }
     private UpgradeData FindData(UpgradeConfig upgradeConfig)
     {

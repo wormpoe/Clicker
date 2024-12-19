@@ -1,9 +1,11 @@
 public class ScoreCangedSignal
 {
-    public readonly int Value;
+    public readonly float _mantissa;
+    public readonly int _exponent;
 
-    public ScoreCangedSignal(int value)
+    public ScoreCangedSignal(float mant, int exp)
     {
-        Value = value;
+        _mantissa = mant;
+        _exponent = exp;
     }
 }

@@ -8,6 +8,8 @@ public class GameInstaller : MonoInstaller
         Container.Bind<GameScore>().AsSingle();
         Container.Bind<ClickPower>().AsSingle();
         Container.Bind<DamageOverTimePower>().AsSingle();
+        Container.Bind<CountHolder>().AsSingle();
+        Container.Bind<CalculateLargeNumbers>().AsSingle();
     }
 
     private void BindSignal()
@@ -18,5 +20,6 @@ public class GameInstaller : MonoInstaller
         Container.DeclareSignal<ClickPowerSignal>().OptionalSubscriber();
         Container.DeclareSignal<DPSPowerSignal>().OptionalSubscriber();
         Container.DeclareSignal<CountUpgradeSignal>().OptionalSubscriber();
+        Container.DeclareSignal<ChangePriceSignal>().OptionalSubscriber();
     }
 }

@@ -3,23 +3,48 @@ using Zenject;
 
 public class GameScore
 {
-    private int _score = 0;
+    private float _score = 0f;
+    private int _exponent = 0;
     private SignalBus _signalBus;
-    public int GetScore { get => _score; }
+    private CalculateLargeNumbers _calculateLargeNumbers;
+    public float GetScore { get => _score; }
+    public int GetExponent { get => _exponent; }
 
     [Inject]
-    private void Construct(SignalBus signalBus)
+    private void Construct(SignalBus signalBus, CalculateLargeNumbers calculateLargeNumbers)
     {
         _signalBus = signalBus;
+        _calculateLargeNumbers = calculateLargeNumbers;
     }
-    public void AddScore(int value)
+    public void AddScore(float score, int exponent)
     {
-        _score += value;
-        _signalBus.Fire(new ScoreCangedSignal(_score));
+        _score = _score + score / Mathf.Pow(10, _exponent - exponent);
+        var result = _calculateLargeNumbers.Calculate(_score);
+        _score = result.Item1;
+        _exponent += result.Item2;
+        if (_exponent == 0)
+        {
+            _score = Mathf.Floor(_score);
+        }
+        _signalBus.Fire(new ScoreCangedSignal(_score, _exponent));
     }
-    public void RemoveScore(int value)
+    public void RemoveScore(float score, int exponent)
     {
-        _score -= value;
-        _signalBus.Fire(new ScoreCangedSignal(_score));
+        if (_score - score == 0)
+        {
+            _score = 0f;
+            _exponent = 0;
+            _signalBus.Fire(new ScoreCangedSignal(_score, _exponent));
+            return;
+        }
+        _score = _score - score / Mathf.Pow(10, _exponent - exponent);
+        var result = _calculateLargeNumbers.Calculate(_score);
+        _score = result.Item1;
+        _exponent += result.Item2;
+        if (_exponent == 0)
+        {
+            _score = Mathf.Floor(_score);
+        }
+        _signalBus.Fire(new ScoreCangedSignal(_score, _exponent));
     }
 }

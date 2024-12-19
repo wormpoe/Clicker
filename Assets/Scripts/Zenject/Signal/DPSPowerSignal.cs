@@ -1,9 +1,11 @@
 public class DPSPowerSignal
 {
-    public readonly int Value;
+    public readonly float DamagePerSecond;
+    public readonly int Exponent;
 
-    public DPSPowerSignal (int signal)
+    public DPSPowerSignal (float dps, int exponent)
     {
-        Value = signal;
+        DamagePerSecond = dps;
+        Exponent = exponent;
     }
 }

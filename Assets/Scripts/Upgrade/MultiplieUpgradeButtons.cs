@@ -25,5 +25,6 @@ public class MultiplieUpgrade : MonoBehaviour
     private void MultiplieCount(int count)
     {
         _signalBus.Fire(new CountUpgradeSignal(count));
+        _signalBus.Fire(new ChangePriceSignal());
     }
 }

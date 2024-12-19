@@ -3,7 +3,7 @@ using UnityEngine;
 public struct RevealShopData
 {
     [SerializeField] string name;
-    [SerializeField] int revealValue;
+    [SerializeField] float revealValue;
 
-    public int RevealValue { get => revealValue; }
+    public float RevealValue { get => revealValue; }
 }

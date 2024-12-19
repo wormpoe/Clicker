@@ -8,14 +8,16 @@ public class RevealedShop : MonoBehaviour
     private UpgradeConfig _upgradeConfig;
     private List<RevealShopData> _revealShopDatas;
     private int _revealId;
+    private GameScore _gameScore;
     [SerializeField] List<GameObject> revealedShopObjects;
     [SerializeField] GameObject shop;
 
     [Inject]
-    private void Construct(SignalBus signalBus, UpgradeConfig upgradeConfig)
+    private void Construct(SignalBus signalBus, UpgradeConfig upgradeConfig, GameScore gameScore)
     {
         _signalBus = signalBus;
         _upgradeConfig = upgradeConfig;
+        _gameScore = gameScore;
     }
     private void Awake()
     {
@@ -28,9 +30,13 @@ public class RevealedShop : MonoBehaviour
         }
         _revealId = 0;
     }
+    private void OnEnable()
+    {
+        OnRevealed(null);
+    }
     public void OnRevealed(ScoreCangedSignal signal)
     {
-        if (signal.Value >= _revealShopDatas[_revealId].RevealValue)
+        if (_gameScore.GetScore >= _revealShopDatas[_revealId].RevealValue)
         {
             revealedShopObjects[_revealId].SetActive(true);
             if(_revealId < revealedShopObjects.Count - 1)

@@ -15,17 +15,20 @@ MonoBehaviour:
   clickUpgradeData:
   - name: Noob
     startPrice: 10
+    startExponent: 0
     revealScore: 10
-    upgrade: 1
+    upgrade: 100
     scale: 1.5
   - name: Regular
     startPrice: 250
+    startExponent: 0
     revealScore: 200
-    upgrade: 5
+    upgrade: 5000
     scale: 1.5
   dpsUpgradeData:
   - name: Noob
     startPrice: 50
+    startExponent: 0
     revealScore: 50
     upgrade: 1
     scale: 1.5

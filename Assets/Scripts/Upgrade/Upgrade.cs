@@ -3,85 +3,116 @@ using UnityEngine.UI;
 using TMPro;
 using Zenject;
 using System.Collections;
+using System;
 
 public abstract class Upgrade : MonoBehaviour
 {
-    protected int _price;
+    protected float _price;
+    protected int _exponent;
     protected float _scale;
-    protected int _upgrade;
+    protected float _upgrade;
     protected int _count;
-    protected int _tpmPrice;
+    protected float _tmpPrice;
+    protected int _tmpExponent;
     protected int _tmpCount;
     private bool _isRunning;
-    private bool _isMaxUgrader;
     private SignalBus _signalBus;
-    private GameScore _gameScore;
+    protected GameScore _gameScore;
     private UpgradeConfig _upgradeConfig;
+    private CountHolder _countUpgrade;
+    private CalculateLargeNumbers _calculateLargeNumbers;
     [SerializeField] protected Button upgradeButton;
     [SerializeField] protected TextMeshProUGUI textUpgradePrice;
     [SerializeField] protected TextMeshProUGUI textCountUpgrade;
 
     [Inject]
-    private void Construct(GameScore gameScore, UpgradeConfig upgradeConfig, SignalBus signalBus)
+    private void Construct(GameScore gameScore, UpgradeConfig upgradeConfig, SignalBus signalBus, CountHolder count, CalculateLargeNumbers calculateLargeNumbers)
     {
         _gameScore = gameScore;
         _upgradeConfig = upgradeConfig;
         _signalBus = signalBus;
+        _countUpgrade = count;
+        _calculateLargeNumbers = calculateLargeNumbers;
     }
 
     private void Awake()
     {
-        _signalBus.Subscribe<CountUpgradeSignal>(OnCount);
+        _signalBus.Subscribe<ChangePriceSignal>(OnChangePrice);
         upgradeButton.onClick.AddListener(OnUpgrade);
         Init(_upgradeConfig);
-        _isMaxUgrader = false;
         _isRunning = false;
-        _tmpCount = 1;
         _count = 0;
     }
-    private void OnCount(CountUpgradeSignal signal)
+    private void OnEnable()
     {
-        _tmpCount = signal.Value;
-        _isMaxUgrader = signal.Value == 0;
-        if (!_isRunning && _isMaxUgrader)
+        OnChangePrice();
+    }
+    private void OnChangePrice()
+    {
+        if (!_isRunning && _countUpgrade.Count == 0 && gameObject.activeInHierarchy)
         {
             StartCoroutine(MaxUpgrade());
+            return;
         }
+        _tmpCount = _countUpgrade.Count;
         ScalePrice();
-    }
-    private void OnDisable()
-    {
-        _isRunning = false;
-        if(MaxUpgrade() != null)
-        {
-            StopCoroutine(MaxUpgrade());
-        }
     }
     protected abstract void Init(UpgradeConfig upgradeConfig);
     private void OnUpgrade()
     {
-        if (_gameScore.GetScore >= _tpmPrice)
+        if (_gameScore.GetScore >= _tmpPrice / Mathf.Pow(10, _gameScore.GetExponent - _tmpExponent))
         {
-            _gameScore.RemoveScore(_tpmPrice);
-            UpgradePower();
-            _count += _tmpCount;
-            textCountUpgrade.text = string.Format("x{0}", _count);
-            _price = (int)Mathf.Floor(_price * Mathf.Pow(_scale, _tmpCount));
+            _gameScore.RemoveScore(_tmpPrice, _tmpExponent);
+            ApproveUpgrade();
             ScalePrice();
+            UpgradePower();
         }
     }
+    private void OnDisable()
+    {
+        _isRunning = false;
+        StopCoroutine(MaxUpgrade());
+    }
     protected abstract void UpgradePower();
+    private void ApproveUpgrade()
+    {
+        _count += _tmpCount;
+        textCountUpgrade.text = string.Format("x{0}", _count);
+        if (_exponent > 0)
+        {
+            _price = _price * Mathf.Pow(_scale, _tmpCount);
+        }
+        else
+        {
+            _price = Mathf.Floor(_price * Mathf.Pow(_scale, _tmpCount));
+        }
+        var newPrice = _calculateLargeNumbers.Calculate(_price);
+        _price = newPrice.Item1;
+        _exponent += newPrice.Item2;
+    }
     private void ScalePrice()
     {
-        _tpmPrice = (int)Mathf.Floor(_price * (1 - Mathf.Pow(_scale, _tmpCount)) / (1 - _scale));
-        textUpgradePrice.text = string.Format("Price x{0}: {1}",_tmpCount, _tpmPrice);
+        var newPrice = _calculateLargeNumbers.Calculate(_price);
+        _tmpExponent = newPrice.Item2 + _exponent;
+        if (_tmpExponent > 0)
+        {
+            _tmpPrice = newPrice.Item1 * (1 - Mathf.Pow(_scale, _tmpCount)) / (1 - _scale);
+        }
+        else
+        {
+            _tmpPrice = Mathf.Floor(newPrice.Item1 * (1 - Mathf.Pow(_scale, _tmpCount)) / (1 - _scale));
+        }
+        newPrice = _calculateLargeNumbers.Calculate(_tmpPrice);
+        _tmpPrice = newPrice.Item1;
+        _tmpExponent += newPrice.Item2;
+        textUpgradePrice.text = string.Format("Price x{0}: {1}{2}",_tmpCount, MathF.Round(_tmpPrice, 1), Enum.GetName(typeof(NumberName), _tmpExponent));
     }
     private IEnumerator MaxUpgrade()
     {
         _isRunning = true;
-        while (_isMaxUgrader)
+        while (_countUpgrade.Count == 0)
         {
-            float ratio = (_gameScore.GetScore * (1 - _scale)) / _price;
+            float ratio = (_gameScore.GetScore * (1 - _scale)) / (_price/Mathf.Pow(10, _gameScore.GetExponent - _exponent));
             _tmpCount = (int)Mathf.Floor(Mathf.Log(1 - ratio) / Mathf.Log(_scale));
             if (_tmpCount == 0) 
                 _tmpCount = 1;

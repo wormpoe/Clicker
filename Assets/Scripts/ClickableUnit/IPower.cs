@@ -1,5 +1,6 @@
 public interface IPower
 {
-    int GetPower();
-    void UpgradePower(int value);
+    float GetPower();
+    int GetExponent();
+    void UpgradePower(float power, int exponent);
 }

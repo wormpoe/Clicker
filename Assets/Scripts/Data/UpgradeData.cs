@@ -3,14 +3,16 @@ using UnityEngine;
 public struct UpgradeData
 {
     [SerializeField] string name;
-    [SerializeField] int startPrice;
-    [SerializeField] int revealScore;
-    [SerializeField] int upgrade;
+    [SerializeField] float startPrice;
+    [SerializeField] int startExponent;
+    [SerializeField] float revealScore;
+    [SerializeField] float upgrade;
     [SerializeField] float scale;
 
     public string Name { get => name; }
-    public int StartPrice { get => startPrice; }
-    public int RevealScore { get => revealScore; }
-    public int Upgrade { get => upgrade; }
+    public float StartPrice { get => startPrice; }
+    public int StartExponent { get => startExponent; }
+    public float RevealScore { get => revealScore; }
+    public float Upgrade { get => upgrade; }
     public float Scale { get => scale; }
 }

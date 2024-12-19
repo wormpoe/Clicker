@@ -1,9 +1,11 @@
 public class ClickPowerSignal
 {
-    public readonly int Value;
+    public readonly float Click;
+    public readonly int Exponent;
 
-    public ClickPowerSignal(int signal)
+    public ClickPowerSignal(float click, int exponent)
     {
-        Value = signal;
+        Click = click;
+        Exponent = exponent;
     }
 }

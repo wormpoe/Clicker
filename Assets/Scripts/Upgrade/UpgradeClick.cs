@@ -19,11 +19,12 @@ public class UpgradeClick : Upgrade
         _exponent = _upgradeData.StartExponent;
         _scale = _upgradeData.Scale;
         _clickUpgrade = _upgradeData.Upgrade;
+        _upgradeExponent = _upgradeData.UpgradeExponent;
         _tmpPrice = _price;
     }
     protected override void UpgradePower()
     {
-        _clickPower.UpgradePower(_clickUpgrade * _tmpCount, _gameScore.GetExponent - _exponent);
+        _clickPower.UpgradePower(_clickUpgrade * _tmpCount, _upgradeExponent);
     }
     private UpgradeData FindData(UpgradeConfig upgradeConfig)
     {

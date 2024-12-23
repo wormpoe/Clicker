@@ -11,6 +11,7 @@ public abstract class Upgrade : MonoBehaviour
     protected int _exponent;
     protected float _scale;
     protected float _upgrade;
+    protected int _upgradeExponent;
     protected int _count;
     protected float _tmpPrice;
     protected int _tmpExponent;
@@ -37,11 +38,24 @@ public abstract class Upgrade : MonoBehaviour
 
     private void Awake()
     {
+        upgradeButton.interactable = false;
         _signalBus.Subscribe<ChangePriceSignal>(OnChangePrice);
         upgradeButton.onClick.AddListener(OnUpgrade);
         Init(_upgradeConfig);
         _isRunning = false;
         _count = 0;
+    }
+    private void Update()
+    {
+        if (_gameScore.GetScore >= _tmpPrice / Mathf.Pow(10, _gameScore.GetExponent - _tmpExponent) && upgradeButton.interactable == false)
+        {
+            upgradeButton.interactable = true;
+        }
+        if (_gameScore.GetScore < _tmpPrice / Mathf.Pow(10, _gameScore.GetExponent - _tmpExponent) && upgradeButton.interactable == true)
+        {
+            upgradeButton.interactable = false;
+        }
+
     }
     private void OnEnable()
     {
@@ -62,11 +76,13 @@ public abstract class Upgrade : MonoBehaviour
     {
         if (_gameScore.GetScore >= _tmpPrice / Mathf.Pow(10, _gameScore.GetExponent - _tmpExponent))
         {
+            upgradeButton.interactable = true;
             _gameScore.RemoveScore(_tmpPrice, _tmpExponent);
             ApproveUpgrade();
             ScalePrice();
             UpgradePower();
         }
+        upgradeButton.interactable = false;
     }
     private void OnDisable()
     {

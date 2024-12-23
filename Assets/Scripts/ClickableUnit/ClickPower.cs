@@ -17,7 +17,7 @@ public class ClickPower : IPower
     }
     public void UpgradePower(float power, int exponent)
     {
-        _click += power / Mathf.Pow(10, _exponent);
+        _click += power / Mathf.Pow(10, _exponent - exponent);
         var result = _calculateLargeNumbers.Calculate(_click);
         _click = result.Item1;
         _exponent += result.Item2;

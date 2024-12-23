@@ -3,8 +3,8 @@ using Zenject;
 
 public class DamageOverTimePower : IPower
 {
-    private float _dps = 0;
-    private int _exponent = 0;
+    protected float _dps = 0;
+    protected int _exponent = 0;
     private SignalBus _signalBus;
     private CalculateLargeNumbers _calculateLargeNumbers;
     [Inject]
@@ -15,7 +15,7 @@ public class DamageOverTimePower : IPower
     }
     public void UpgradePower(float power, int exponent)
     {
-        _dps += power / Mathf.Pow(10, _exponent);
+        _dps += power / Mathf.Pow(10, _exponent - exponent);
         var result = _calculateLargeNumbers.Calculate(_dps);
         _dps = result.Item1;
         _exponent += result.Item2;
@@ -28,5 +28,15 @@ public class DamageOverTimePower : IPower
     public int GetExponent()
     {
         return _exponent;
+    }
+    public Vector3 GenerationRandomPosition(Transform unit, Camera camera)
+    {
+        Vector3 pos = unit.transform.position;
+        var canvasPos = RectTransformUtility.WorldToScreenPoint(camera, pos);
+        int radius = Random.Range(30, 50);
+        float radians = Random.Range(0, 360) * Mathf.Deg2Rad;
+        canvasPos.x += radius * Mathf.Cos(radians);
+        canvasPos.y += radius * Mathf.Sin(radians);
+        return canvasPos;
     }
 }

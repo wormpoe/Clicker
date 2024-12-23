@@ -19,11 +19,12 @@ public class UpgradeDps : Upgrade
         _exponent = _upgradeData.StartExponent;
         _scale = _upgradeData.Scale;
         _dpsUpgrade = _upgradeData.Upgrade;
+        _upgradeExponent = _upgradeData.UpgradeExponent;
         _tmpPrice = _price;
     }
     protected override void UpgradePower()
     {
-        _dpsPower.UpgradePower(_dpsUpgrade * _tmpCount, _gameScore.GetExponent - _exponent);
+        _dpsPower.UpgradePower(_dpsUpgrade * _tmpCount, _upgradeExponent);
     }
     private UpgradeData FindData(UpgradeConfig upgradeConfig)
     {

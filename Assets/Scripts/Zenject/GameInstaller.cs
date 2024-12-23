@@ -21,5 +21,6 @@ public class GameInstaller : MonoInstaller
         Container.DeclareSignal<DPSPowerSignal>().OptionalSubscriber();
         Container.DeclareSignal<CountUpgradeSignal>().OptionalSubscriber();
         Container.DeclareSignal<ChangePriceSignal>().OptionalSubscriber();
+        Container.DeclareSignal<SpawnPositionSignal>().OptionalSubscriber();
     }
 }

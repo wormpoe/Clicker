@@ -7,6 +7,7 @@ public struct UpgradeData
     [SerializeField] int startExponent;
     [SerializeField] float revealScore;
     [SerializeField] float upgrade;
+    [SerializeField] int upgradeExpinent;
     [SerializeField] float scale;
 
     public string Name { get => name; }
@@ -14,5 +15,7 @@ public struct UpgradeData
     public int StartExponent { get => startExponent; }
     public float RevealScore { get => revealScore; }
     public float Upgrade { get => upgrade; }
+    public int UpgradeExponent { get => upgradeExpinent; }
     public float Scale { get => scale; }
+
 }

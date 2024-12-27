@@ -16,7 +16,7 @@ public class AddScoreAnimation : MonoBehaviour
     }
     private void ClickAnimation(SpawnPositionSignal signal)
     {
-        _text.text = string.Format("+{0}{1}", MathF.Round(signal.ClickPower, 1), Enum.GetName(typeof(NumberName), signal.Exponetn));
+        _text.text = string.Format("+{0}{1}", MathF.Round(signal.ClickPower, 1), (signal.Exponetn > 0) ? Enum.GetName(typeof(NumberName), signal.Exponetn) : "");
         var newItem = Instantiate(_text, signal.Position, Quaternion.identity, _canvas.transform);
         Sequence animation = DOTween.Sequence();
         animation

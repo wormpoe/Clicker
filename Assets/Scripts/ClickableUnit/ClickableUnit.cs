@@ -1,27 +1,28 @@
 using UnityEngine;
 using Zenject;
 using DG.Tweening;
+using System.Collections;
 
 public class ClickableUnit : MonoBehaviour
 {
     private GameScore _gameScore;
-    private ClickPower _clickPower;
-    private DamageOverTimePower _dpsPower;
+    private TypeFactory _typeFactory;
+    private Power _clickPower;
+    private Power _dpsPower;
     private Camera _mainCamera;
     private SignalBus _signalBus;
-    private float _tickInterval = 1;
-    private float _timer = 0;
     private void Awake()
     {
         _mainCamera = Camera.main;
+        _clickPower = _typeFactory.Create(TypeName.ClickPower);
+        _dpsPower = _typeFactory.Create(TypeName.DpsPower);
     }
     [Inject]
-    private void Construct(GameScore gameScore, ClickPower clickPower, DamageOverTimePower dpsPower, SignalBus signalBus)
+    private void Construct(GameScore gameScore, TypeFactory typeFactory, SignalBus signalBus)
     {
         _gameScore = gameScore;
-        _clickPower = clickPower;
-        _dpsPower = dpsPower;
         _signalBus = signalBus;
+        _typeFactory = typeFactory;
     }
     void Update()
     {
@@ -31,22 +32,22 @@ public class ClickableUnit : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject == gameObject)
             {
                 ClickAnimation();
-                GetScore(_clickPower, Input.mousePosition);
+                GetScore(_clickPower);
             }
         }
-        _timer += Time.deltaTime;
-        if (_timer >= _tickInterval)
+        if (_dpsPower is DpsPower dpsPower)
         {
-            _timer -= _tickInterval;
-            GetScore(_dpsPower, _dpsPower.GenerationRandomPosition(transform, _mainCamera));
+            foreach (var item in dpsPower.DpsItem.Values)
+            {
+                if (item.PowerMantissa > 0 && item.IsRunning == false)
+                    StartCoroutine(TickDps(dpsPower, item));
+            }
         }
     }
-    private void GetScore(IPower power, Vector3 position)
+    private void GetScore(Power power)
     {
-        if (power == null || power.GetPower() == 0f)
-            return;
+        _signalBus.Fire(new SpawnPositionSignal(Input.mousePosition, power.GetPower(), power.GetExponent()));
         _gameScore.AddScore(power.GetPower(), power.GetExponent());
-        _signalBus.Fire(new SpawnPositionSignal(position, power.GetPower(), power.GetExponent()));
     }
     private void ClickAnimation()
     {
@@ -54,5 +55,15 @@ public class ClickableUnit : MonoBehaviour
         transform.localScale = Vector3.one;
         transform.DOKill();
         transform.DOShakeScale(0.2f, vec, 15, 20);
+    }
+    IEnumerator TickDps(DpsPower dpsPower, DpsItem item)
+    {
+        item.ControlTicking();
+        yield return new WaitForSeconds(item.TickInterval);
+        Vector3 animationPosition;
+        animationPosition = dpsPower.GenerationRandomPosition(transform, _mainCamera);
+        _gameScore.AddScore(item.PowerMantissa, item.PowerExponent);
+        _signalBus.Fire(new SpawnPositionSignal(animationPosition, item.PowerMantissa, item.PowerExponent));
+        item.ControlTicking();
     }
 }

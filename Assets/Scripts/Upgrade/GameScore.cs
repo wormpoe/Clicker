@@ -19,14 +19,7 @@ public class GameScore
     public void AddScore(float score, int exponent)
     {
         _score = _score + score / Mathf.Pow(10, _exponent - exponent);
-        var result = _calculateLargeNumbers.Calculate(_score);
-        _score = result.Item1;
-        _exponent += result.Item2;
-        if (_exponent == 0)
-        {
-            _score = Mathf.Floor(_score);
-        }
-        _signalBus.Fire(new ScoreCangedSignal(_score, _exponent));
+        CalculateScore();
     }
     public void RemoveScore(float score, int exponent)
     {
@@ -38,6 +31,10 @@ public class GameScore
             return;
         }
         _score = _score - score / Mathf.Pow(10, _exponent - exponent);
+        CalculateScore();
+    }
+    private void CalculateScore()
+    {
         var result = _calculateLargeNumbers.Calculate(_score);
         _score = result.Item1;
         _exponent += result.Item2;

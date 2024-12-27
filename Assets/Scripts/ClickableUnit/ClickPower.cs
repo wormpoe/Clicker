@@ -1,34 +1,13 @@
-using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using Zenject;
-
-public class ClickPower : IPower
+public class ClickPower : Power
 {
-    private float _click = 1;
-    private int _exponent = 0;
-    private SignalBus _signalBus;
-    private CalculateLargeNumbers _calculateLargeNumbers;
-
-    [Inject]
-    private void Construct(SignalBus signalBus, CalculateLargeNumbers calculateLargeNumbers)
+    protected override void Init()
     {
-        _signalBus = signalBus;
-        _calculateLargeNumbers = calculateLargeNumbers;
+        _powerMantissa = 1;
+        _powerExponent = 0;
     }
-    public void UpgradePower(float power, int exponent)
+    public override void UpgradePower(float power, int exponent)
     {
-        _click += power / Mathf.Pow(10, _exponent - exponent);
-        var result = _calculateLargeNumbers.Calculate(_click);
-        _click = result.Item1;
-        _exponent += result.Item2;
-        _signalBus.Fire(new ClickPowerSignal(_click, _exponent));
-    }
-    public float GetPower()
-    {
-        return _click;
-    }
-    public int GetExponent()
-    {
-        return _exponent;
+        base.UpgradePower(power, exponent);
+        _signalBus.Fire(new ClickPowerSignal(_powerMantissa, _powerExponent));
     }
 }

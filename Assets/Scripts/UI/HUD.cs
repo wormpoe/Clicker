@@ -23,14 +23,14 @@ public class HUD : MonoBehaviour
     }
     private void OnScoreCanged(ScoreCangedSignal signal)
     {
-        score.text = string.Format("Score: {0}{1}", MathF.Round(signal._mantissa, 1), Enum.GetName(typeof(NumberName), signal._exponent));
+        score.text = string.Format("Score: {0}{1}", MathF.Round(signal._mantissa, 1), (signal._exponent > 0) ? Enum.GetName(typeof(NumberName), signal._exponent) : "");
     }
     private void OnPowerClickCanged(ClickPowerSignal signal)
     {
-        clickPower.text = string.Format("Click power: {0}{1}", MathF.Round(signal.Click, 1), Enum.GetName(typeof(NumberName), signal.Exponent));
+        clickPower.text = string.Format("Click power: {0}{1}", MathF.Round(signal.Click, 1), (signal.Exponent > 0) ? Enum.GetName(typeof(NumberName), signal.Exponent) : "");
     }
     private void OnPowerDPSChanged(DPSPowerSignal signal)
     {
-        dpsPower.text = string.Format("DPS power: {0}{1}", MathF.Round(signal.DamagePerSecond, 1), Enum.GetName(typeof(NumberName), signal.Exponent));
+        dpsPower.text = string.Format("DPS power: {0}{1}", MathF.Round(signal.DamagePerSecond, 1), (signal.Exponent > 0) ? Enum.GetName(typeof(NumberName), signal.Exponent) : "");
     }
 }

@@ -4,7 +4,6 @@ using DG.Tweening;
 [System.Serializable]
 public class RevealedItem
 {
-    [SerializeField] private string _name;
     [SerializeField] private GameObject _item;
     [SerializeField] private float _revealedMantissa;
     [SerializeField] private NumberName _numberName;

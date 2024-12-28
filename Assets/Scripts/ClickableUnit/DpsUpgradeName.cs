@@ -1,6 +1,16 @@
 public enum DpsUpgradeName
 {
     NotDpsUpgrade,
-    NoobUpgrade,
-    MaxikUpgrade
+    AutoTapper,
+    RabbitAlly,
+    BunnySquad,
+    MechanicalHare,
+    LaserBunny,
+    RabbitLegion,
+    CosmicFactory,
+    InfiniteArmy,
+    QuantumRabbits,
+    RealityShredder,
+    DimensionalBurst,
+    AntimatterRabbits
 }

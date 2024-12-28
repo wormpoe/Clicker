@@ -7,13 +7,53 @@ public class DpsPower : Power
     public Dictionary<DpsUpgradeName, DpsItem> DpsItem { get => _dpsItem; }
     protected override void Init()
     {
-        var noobDps = new DpsItem();
-        noobDps.Init(0.5f);
-        _dpsItem[DpsUpgradeName.NoobUpgrade] = noobDps;
+        var autoTapper = new DpsItem();
+        autoTapper.Init(1f);
+        _dpsItem[DpsUpgradeName.AutoTapper] = autoTapper;
 
-        var maxikDps = new DpsItem();
-        maxikDps.Init(2f);
-        _dpsItem[DpsUpgradeName.MaxikUpgrade] = maxikDps;
+        var rabbitAlly = new DpsItem();
+        rabbitAlly.Init(0.5f);
+        _dpsItem[DpsUpgradeName.RabbitAlly] = rabbitAlly;
+
+        var bunnySquad = new DpsItem();
+        bunnySquad.Init(2f);
+        _dpsItem[DpsUpgradeName.BunnySquad] = bunnySquad;
+
+        var mechanicalHare = new DpsItem();
+        mechanicalHare.Init(2f);
+        _dpsItem[DpsUpgradeName.MechanicalHare] = mechanicalHare;
+
+        var laserBunny = new DpsItem();
+        laserBunny.Init(1f);
+        _dpsItem[DpsUpgradeName.LaserBunny] = laserBunny;
+
+        var rabbitLegion = new DpsItem();
+        rabbitLegion.Init(0.5f);
+        _dpsItem[DpsUpgradeName.RabbitLegion] = rabbitLegion;
+
+        var cosmicFactory = new DpsItem();
+        cosmicFactory.Init(2f);
+        _dpsItem[DpsUpgradeName.CosmicFactory] = cosmicFactory;
+
+        var infiniteArmy = new DpsItem();
+        infiniteArmy.Init(1f);
+        _dpsItem[DpsUpgradeName.InfiniteArmy] = infiniteArmy;
+
+        var quantumRabbits = new DpsItem();
+        quantumRabbits.Init(0.5f);
+        _dpsItem[DpsUpgradeName.QuantumRabbits] = quantumRabbits;
+
+        var realityShredder = new DpsItem();
+        realityShredder.Init(2f);
+        _dpsItem[DpsUpgradeName.RealityShredder] = realityShredder;
+
+        var dimensionalBurst = new DpsItem();
+        dimensionalBurst.Init(1f);
+        _dpsItem[DpsUpgradeName.DimensionalBurst] = dimensionalBurst;
+
+        var antimatterRabbits = new DpsItem();
+        antimatterRabbits.Init(0.5f);
+        _dpsItem[DpsUpgradeName.AntimatterRabbits] = antimatterRabbits;
     }
     public void UpgradeDpsItem(float mantissa, int exponent, DpsUpgradeName dpsUpgradeName)
     {

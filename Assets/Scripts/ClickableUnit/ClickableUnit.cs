@@ -6,25 +6,28 @@ using System.Collections;
 public class ClickableUnit : MonoBehaviour
 {
     private GameScore _gameScore;
-    private TypeFactory _typeFactory;
-    private Power _clickPower;
-    private Power _dpsPower;
+    private ClickPower _clickPower;
+    private DpsPower _dpsPower;
     private Camera _mainCamera;
     private SignalBus _signalBus;
     private void Awake()
     {
         _mainCamera = Camera.main;
-        _clickPower = _typeFactory.Create(TypeName.ClickPower);
-        _dpsPower = _typeFactory.Create(TypeName.DpsPower);
     }
     [Inject]
-    private void Construct(GameScore gameScore, TypeFactory typeFactory, SignalBus signalBus)
+    private void Construct(GameScore gameScore, ClickPower clickPower, DpsPower dpsPower, SignalBus signalBus)
     {
         _gameScore = gameScore;
         _signalBus = signalBus;
-        _typeFactory = typeFactory;
+        _clickPower = clickPower;
+        _dpsPower = dpsPower;
     }
     void Update()
+    {
+        ClickRegistrate();
+        DpsRegistrate();
+    }
+    private void ClickRegistrate()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -35,6 +38,9 @@ public class ClickableUnit : MonoBehaviour
                 GetScore(_clickPower);
             }
         }
+    }
+    private void DpsRegistrate()
+    {
         if (_dpsPower is DpsPower dpsPower)
         {
             foreach (var item in dpsPower.DpsItem.Values)

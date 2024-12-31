@@ -15,7 +15,8 @@ public abstract class Power
         _calculateLargeNumbers = calculateLargeNumbers;
         Init();
     }
-    public virtual void UpgradePower(float mantissa, int exponent)
+    protected abstract void SendPowerInHud();
+    protected void CalculatePower(float mantissa, int exponent)
     {
         _powerMantissa += mantissa / Mathf.Pow(10, _powerExponent - exponent);
         var result = _calculateLargeNumbers.Calculate(_powerMantissa);

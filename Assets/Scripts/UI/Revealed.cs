@@ -2,31 +2,32 @@ using UnityEngine;
 using Zenject;
 using System.Collections.Generic;
 
-public class Revealed : MonoBehaviour
+public class Revealed
 {
-    private SignalBus _signalBus;
     private GameScore _gameScore;
-    [SerializeField] private List<RevealedItem> revealedItems;
+    private Dictionary<string, RevealedItem> _revealedItems = new Dictionary<string, RevealedItem>();
 
     [Inject]
-    private void Construct(SignalBus signalBus, GameScore gameScore)
+    private void Construct(GameScore gameScore, SignalBus signalBus)
     {
-        _signalBus = signalBus;
         _gameScore = gameScore;
+        signalBus.Subscribe<ScoreCangedSignal>(OnRevealed);
     }
-    private void Awake()
-    {
-        _signalBus.Subscribe<ScoreCangedSignal>(OnRevealed);
-        foreach (var reveal in revealedItems)
-        {
-            reveal.Init();
-        }
-    }
+
     private void OnRevealed(ScoreCangedSignal signal)
     {
-        foreach (var revealItem in revealedItems)
+        foreach (var revealItem in _revealedItems)
         {
-            revealItem.Revealed(_gameScore.GetScore, _gameScore.GetExponent);
+            revealItem.Value.Revealed(_gameScore.GetScore, _gameScore.GetExponent);
+        }
+    }
+    public void Init(string name, float mantissa, int exponent, GameObject revealObject)
+    {
+        if (!_revealedItems.ContainsKey(name))
+        {
+            var newItem = new RevealedItem();
+            newItem.Init(mantissa, exponent, revealObject);
+            _revealedItems[name] = newItem;
         }
     }
 }

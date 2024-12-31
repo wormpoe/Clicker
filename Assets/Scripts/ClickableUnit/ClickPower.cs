@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class ClickPower : Power
 {
     protected override void Init()
@@ -5,9 +7,13 @@ public class ClickPower : Power
         _powerMantissa = 1;
         _powerExponent = 0;
     }
-    public override void UpgradePower(float power, int exponent)
+    public void UpgradeClick(float power, int exponent)
     {
-        base.UpgradePower(power, exponent);
+        CalculatePower(power, exponent);
+        SendPowerInHud();
+    }
+    protected override void SendPowerInHud()
+    {
         _signalBus.Fire(new ClickPowerSignal(_powerMantissa, _powerExponent));
     }
 }

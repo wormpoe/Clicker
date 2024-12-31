@@ -4,55 +4,51 @@ using TMPro;
 using Zenject;
 using System;
 
-public class ButtonUpgrade : MonoBehaviour
+public abstract class ButtonUpgrade : MonoBehaviour
 {
     [SerializeField] private float _priceMantissa;
     [SerializeField] private NumberName _priceExponentName;
     [SerializeField] private float _priceScale;
     [SerializeField] private TextMeshProUGUI _textUpgradePrice;
     [SerializeField] private TextMeshProUGUI _textCountUpgrade;
-    [SerializeField] private float _powerUpgradeMantissa;
+    [SerializeField] protected float _powerUpgradeMantissa;
     [SerializeField] private NumberName _powerUpgradeExponentName;
     [SerializeField] private Button _upgradeButton;
-    [SerializeField] private TypeName _typeName;
-    [SerializeField, HideInInspector] private DpsUpgradeName _dpsUpgradeName;
+    [SerializeField] protected string _upgradeName;
 
     private GameScore _gameScore;
     private CalculateCount _calculateCount;
     private CalculatePrice _calculatePrice;
+    private Revealed _revealed;
     private SignalBus _signalBus;
-    private TypeFactory _typeFactory;
-    private Power _upgradePower;
     private int _countUpgrade;
-    private int _tempCount;
+    protected int _tempCount;
     private float _tempMantissa;
     private int _tempExponent;
     private int _priceExponent;
-    private int _powerUpgradeExponent;
-
-    public TypeName TypeName { get => _typeName; }
+    protected int _powerUpgradeExponent;
 
     [Inject]
-    private void Construct(GameScore gameScore, CalculatePrice calculatePrice, CalculateCount calculateCount, SignalBus signalBus, TypeFactory typeFactory)
+    protected void Construct(GameScore gameScore, CalculatePrice calculatePrice, CalculateCount calculateCount, SignalBus signalBus, Revealed revealed)
     {
         _gameScore = gameScore;
         _calculatePrice = calculatePrice;
         _calculateCount = calculateCount;
         _signalBus = signalBus;
-        _typeFactory = typeFactory;
+        _revealed = revealed;
     }
     private void Awake()
     {
         _signalBus.Subscribe<ChangePriceSignal>(UpdatePrice);
         _signalBus.Subscribe<ScoreCangedSignal>(UpdatePrice);
         _upgradeButton.onClick.AddListener(OnUpgrade);
-        _upgradePower = _typeFactory.Create(_typeName);
         _priceExponent = (int)_priceExponentName;
         _powerUpgradeExponent = (int)_powerUpgradeExponentName;
         _tempMantissa = _priceMantissa;
         _tempExponent = _priceExponent;
         _tempCount = 1;
         _upgradeButton.interactable = false;
+        _revealed.Init(_upgradeName, _priceMantissa, _priceExponent, gameObject);
     }
     private void OnEnable()
     {
@@ -74,14 +70,7 @@ public class ButtonUpgrade : MonoBehaviour
         if (_gameScore.GetScore >= _tempMantissa / Mathf.Pow(10, _gameScore.GetExponent - _tempExponent))
         {
             _countUpgrade += _tempCount;
-            if (_upgradePower is DpsPower dpsPower)
-            {
-                dpsPower.UpgradeDpsItem(_powerUpgradeMantissa * _tempCount, _powerUpgradeExponent, _dpsUpgradeName);
-            }
-            else
-            {
-                _upgradePower.UpgradePower(_powerUpgradeMantissa * _tempCount, _powerUpgradeExponent);
-            }
+            SendPower();
             GetCount();
             var newPrice = _calculatePrice.CalculateNewPrice(_priceMantissa, _priceExponent, _priceScale, _tempCount);
             _priceMantissa = newPrice.Item1;
@@ -89,6 +78,7 @@ public class ButtonUpgrade : MonoBehaviour
             _gameScore.RemoveScore(_tempMantissa, _tempExponent);
         }
     }
+    protected abstract void SendPower();
     private void UpdatePrice()
     {
         _tempCount = _calculateCount.Calculate(_priceMantissa, _priceScale, _priceExponent, _tempCount);

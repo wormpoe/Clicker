@@ -147,9 +147,9 @@ GameObject:
   - component: {fileID: 3834611530666143066}
   - component: {fileID: 8928564030571456126}
   - component: {fileID: 3099626116131434368}
-  - component: {fileID: 743812396276675340}
+  - component: {fileID: 1591852654676832628}
   m_Layer: 5
-  m_Name: PrefabUpgradeTab
+  m_Name: PrefabDpsUpgradeTab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &743812396276675340
+--- !u!114 &1591852654676832628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4563162439194113432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecd59157886798489d2b21790385972, type: 3}
+  m_Script: {fileID: 11500000, guid: f5f54eef146852a42a8565be33fa0c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _priceMantissa: 0
@@ -236,8 +236,8 @@ MonoBehaviour:
   _powerUpgradeMantissa: 0
   _powerUpgradeExponentName: 0
   _upgradeButton: {fileID: 6549162226317833121}
-  _typeName: 0
   _dpsUpgradeName: 0
+  _tickInterval: 0
 --- !u!1 &5757294087539051529
 GameObject:
   m_ObjectHideFlags: 0

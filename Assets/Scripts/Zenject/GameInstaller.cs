@@ -5,11 +5,13 @@ public class GameInstaller : MonoInstaller
     public override void InstallBindings()
     {
         BindSignal();
-        BindSelectType();
         Container.Bind<GameScore>().AsSingle();
         Container.Bind<CalculatePrice>().AsSingle();
         Container.Bind<CalculateCount>().AsSingle();
         Container.Bind<CalculateLargeNumbers>().AsSingle();
+        Container.Bind<ClickPower>().AsSingle();
+        Container.Bind<DpsPower>().AsSingle();
+        Container.Bind<Revealed>().AsSingle();
     }
 
     private void BindSignal()
@@ -21,11 +23,5 @@ public class GameInstaller : MonoInstaller
         Container.DeclareSignal<CountUpgradeSignal>().OptionalSubscriber();
         Container.DeclareSignal<ChangePriceSignal>().OptionalSubscriber();
         Container.DeclareSignal<SpawnPositionSignal>().OptionalSubscriber();
-    }
-    private void BindSelectType()
-    {
-        Container.Bind<Power>().WithId(TypeName.ClickPower).To<ClickPower>().AsSingle();
-        Container.Bind<Power>().WithId(TypeName.DpsPower).To<DpsPower>().AsSingle();
-        Container.Bind<TypeFactory>().AsSingle();
     }
 }

@@ -8,6 +8,7 @@ public class HUD : MonoBehaviour
     [SerializeField] TextMeshProUGUI score;
     [SerializeField] TextMeshProUGUI clickPower;
     [SerializeField] TextMeshProUGUI dpsPower;
+    private string lolkek;
     private SignalBus _signalBus;
 
     [Inject]

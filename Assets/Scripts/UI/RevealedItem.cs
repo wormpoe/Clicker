@@ -1,20 +1,19 @@
 using UnityEngine;
 using DG.Tweening;
 
-[System.Serializable]
 public class RevealedItem
 {
-    [SerializeField] private GameObject _item;
-    [SerializeField] private float _revealedMantissa;
-    [SerializeField] private NumberName _numberName;
+    private GameObject _item;
+    private float _revealedMantissa;
     private int _revealedExponent;
     private bool _isRevealed;
-
-    public void Init()
+    public void Init(float mantissa, int exponent, GameObject revealObject)
     {
+        _revealedMantissa = mantissa;
+        _revealedExponent = exponent;
+        _item = revealObject;
         _item.SetActive(false);
         _isRevealed = false;
-        _revealedExponent = (int)_numberName;
     }
     public void Revealed(float mantissa, int exponent)
     {
